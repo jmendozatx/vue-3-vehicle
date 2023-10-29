@@ -48,59 +48,38 @@
   </div>
 </template>
 
-<script>
-import { defineComponent, ref } from "vue";
+<script setup>
+import { ref } from "vue";
 import { useVehicleStore } from "@/store/vehicle";
-import VehicleCard from '@/components/VehicleCard.vue';
+import VehicleCard from "@/components/VehicleCard.vue";
 
-export default defineComponent({
-  name: "VehicleList",
-  components: {
-    VehicleCard
-  },
-  setup() {
-    const selectedVehicle = ref({});
-    const deleteModal = ref(false);
-    const editModal = ref(false);
+const selectedVehicle = ref({});
+const deleteModal = ref(false);
+const editModal = ref(false);
 
-    const vehicleStore = useVehicleStore();
-    const callMe = (text) => {
-      alert(text);
-    };
+const vehicleStore = useVehicleStore();
 
-    const openDeleteModal = (vehicle) => {
-      selectedVehicle.value = vehicle;
-      deleteModal.value = true;
-    };
+const openDeleteModal = (vehicle) => {
+  selectedVehicle.value = vehicle;
+  deleteModal.value = true;
+};
 
-    const deleteVehicle = () => {
-      vehicleStore.deleteVehicle(selectedVehicle.value.vin);
-      deleteModal.value = false;
-    };
+const deleteVehicle = () => {
+  vehicleStore.deleteVehicle(selectedVehicle.value.vin);
+  deleteModal.value = false;
+};
 
-    const openEditVehicleModal = (vehicle) => {
-      selectedVehicle.value = vehicle;
-      editModal.value = true;
-    };
+const openEditVehicleModal = (vehicle) => {
+  selectedVehicle.value = vehicle;
+  editModal.value = true;
+};
 
-    const updateVehicle = () => {
-      editModal.value = false;
-      vehicleStore.updateVehicle(selectedVehicle.value);
-    };
+const updateVehicle = () => {
+  editModal.value = false;
+  vehicleStore.updateVehicle(selectedVehicle.value);
+};
 
-    return {
-      callMe,
-      selectedVehicle,
-      deleteModal,
-      deleteVehicle,
-      editModal,
-      openDeleteModal,
-      openEditVehicleModal,
-      updateVehicle,
-      vehicles: vehicleStore.vehicles,
-    };
-  },
-});
+const vehicles = vehicleStore.vehicles;
 </script>
 
 <style lang="scss">

@@ -2,25 +2,8 @@
   <div class="vehicle-list">
     <h3 class="text-h5 mb-4">Active vehicles ({{ vehicles.length }})</h3>
     <transition-group name="fade" v-if="vehicles.length >= 1">
-      <v-card v-for="vehicle in vehicles" flat :key="vehicle.vin" class="pa-4 mb-4 d-flex justify-content align-center">
-        <v-img contain class="mr-4" max-width="150" :src="`/BodyClassImages/${vehicle.bodyClassId}.png`" />
-        <div class="vehicle-details-container">
-          <strong class="vehicle-vin">{{ vehicle.vin }}</strong>
-          <div>
-            {{ vehicle.year }}
-            {{ vehicle.make }}
-            {{ vehicle.model }}
-          </div>
-        </div>
-        <div class="vehicle-actions ml-auto">
-          <v-btn @click="openDeleteModal(vehicle)" color="error" class="mr-4">
-            <v-icon>mdi-trash-can</v-icon>
-          </v-btn>
-          <v-btn @click="openEditVehicleModal(vehicle)" color="success">
-            <v-icon left>mdi-pencil</v-icon>Edit
-          </v-btn>
-        </div>
-      </v-card>
+      <vehicle-card v-for="vehicle in vehicles" :key="vehicle.vin" :vehicle="vehicle" @openDeleteModal="openDeleteModal"
+        @openEditVehicleModal="openEditVehicleModal" />
     </transition-group>
     <div v-else>
       <v-card class="pa-4" flat>
@@ -44,6 +27,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
     <v-dialog v-model="editModal" width="500">
       <v-card>
         <v-card-title class="text-h5 mb-3">Edit Vehicle Information</v-card-title>
@@ -67,9 +51,13 @@
 <script>
 import { defineComponent, ref } from "vue";
 import { useVehicleStore } from "@/store/vehicle";
+import VehicleCard from '@/components/VehicleCard.vue';
 
 export default defineComponent({
   name: "VehicleList",
+  components: {
+    VehicleCard
+  },
   setup() {
     const selectedVehicle = ref({});
     const deleteModal = ref(false);

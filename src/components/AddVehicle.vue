@@ -4,27 +4,14 @@
     <v-card flat class="add-vehicle pa-10">
       <div class="description mb-4 text-center">
         <p>
-          Enter your vin to search for your vehicle.
+          Enter your VIN to search for your vehicle.
           <br />Your vehicle will be automatically added to the list of Active Vehicles
           below.
         </p>
       </div>
       <div class="vin-input-container">
-        <v-text-field
-          prepend-icon="mdi-car-outline"
-          label="Enter VIN"
-          v-model="userVin"
-          outlined
-          max-width="400px"
-        />
-        <v-btn
-          size="x-large"
-          :loading="loading"
-          :disabled="loading"
-          class="ml-4"
-          color="info"
-          @click="search"
-        >
+        <v-text-field prepend-icon="mdi-car-outline" label="Enter VIN" v-model="userVin" outlined max-width="400px" />
+        <v-btn size="x-large" :loading="loading" :disabled="loading" class="ml-4" color="info" @click="search">
           Search
           <template #loader>
             <span class="custom-loader">
@@ -34,11 +21,11 @@
         </v-btn>
       </div>
 
-      <a
-        href="https://vingenerator.org/"
-        target="_blank"
-        class="grey--text text--lighten-1"
-      >VIN Generator</a>
+      <div class="text-subtitle-2">
+        Need a sample VIN? use the <a href="https://vingenerator.org/" target="_blank"
+          class="grey--text text--lighten-1">VIN Generator</a>
+      </div>
+
       <div class="error" v-show="error">{{ errorMsg }}</div>
     </v-card>
   </div>

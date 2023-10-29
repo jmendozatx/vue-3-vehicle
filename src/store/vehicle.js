@@ -5,17 +5,17 @@ export const useVehicleStore = defineStore({
     state: () => ({
         vehicles: [
             {
-                vin: "4A4AP3AUXDE006568",
-                year: "2013",
-                make: "MITSUBISHI",
-                model: "Outlander Sport",
-                bodyClassId: "7"
+                vin: "JH4DB8590SS001561",
+                year: "1995",
+                make: "Acura",
+                model: "Integra",
+                bodyClassId: "13"
             },
             {
-                vin: "1FTFW1CF0CKD99953",
+                vin: "3TMMU4FN8CM049190",
                 year: "2012",
-                make: "FORD",
-                model: "F-150",
+                make: "TOYOTA ",
+                model: "TACOMA",
                 bodyClassId: "60"
             }
         ]

@@ -2,18 +2,8 @@
   <div class="vehicle-list">
     <h3 class="text-h5 mb-4">Active vehicles ({{ vehicles.length }})</h3>
     <transition-group name="fade" v-if="vehicles.length >= 1">
-      <v-card
-        v-for="vehicle in vehicles"
-        flat
-        :key="vehicle.vin"
-        class="pa-4 mb-4 d-flex justify-content align-center"
-      >
-        <v-img
-          contain
-          class="mr-4"
-          max-width="150"
-          :src="`src/assets/BodyClassImages/${vehicle.bodyClassId}.png`"
-        />
+      <v-card v-for="vehicle in vehicles" flat :key="vehicle.vin" class="pa-4 mb-4 d-flex justify-content align-center">
+        <v-img contain class="mr-4" max-width="150" :src="`/BodyClassImages/${vehicle.bodyClassId}.png`" />
         <div class="vehicle-details-container">
           <strong class="vehicle-vin">{{ vehicle.vin }}</strong>
           <div>
@@ -135,6 +125,7 @@ export default defineComponent({
   .fade-leave-active {
     transition: opacity 0.5s;
   }
+
   .fade-enter,
   .fade-leave-active {
     opacity: 0;

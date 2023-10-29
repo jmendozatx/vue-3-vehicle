@@ -1,40 +1,58 @@
 <template>
-  <v-card flat class="pa-4 mb-4 d-flex justify-content align-center">
-    <v-img contain class="mr-4" max-width="150" :src="`/BodyClassImages/${vehicle.bodyClassId}.png`" />
-    <div class="vehicle-details-container">
-      <strong class="vehicle-vin">{{ vehicle.vin }}</strong>
-      <div>
-        {{ vehicle.year }}
-        {{ vehicle.make }}
-        {{ vehicle.model }}
+  <div class="vehicle-card">
+    <v-card flat class="pa-4 mb-4">
+      <v-img contain class="mr-4" :src="`/BodyClassImages/${vehicle.bodyClassId}.png`" />
+      <div class="vehicle-details-container">
+        <strong class="vehicle-vin">{{ vehicle.vin }}</strong>
+        <div>
+          {{ vehicle.year }}
+          {{ vehicle.make }}
+          {{ vehicle.model }}
+        </div>
       </div>
-    </div>
-    <div class="vehicle-actions ml-auto">
-      <v-btn @click="openDeleteModal(vehicle)" color="error" class="mr-4">
-        <v-icon>mdi-trash-can</v-icon>
-      </v-btn>
-      <v-btn @click="openEditVehicleModal(vehicle)" color="success">
-        <v-icon left>mdi-pencil</v-icon>Edit
-      </v-btn>
-    </div>
-  </v-card>
+      <div class="vehicle-actions ml-auto">
+        <modal-delete :vehicle="vehicle" class="mr-2" />
+        <modal-edit :vehicle="vehicle" />
+      </div>
+    </v-card>
+  </div>
 </template>
 
 <script setup>
+// Imports
+import ModalDelete from "@/components/ModalDelete.vue";
+import ModalEdit from "@/components/ModalEdit.vue";
+
 // Props
 // eslint-disable-next-line no-unused-vars
 const props = defineProps({
   vehicle: Object,
 });
-
-// Emits
-const emits = defineEmits(['openDeleteModal', 'openEditVehicleModal']);
-
-const openDeleteModal = (vehicle) => {
-  emits('openDeleteModal', vehicle);
-};
-
-const openEditVehicleModal = (vehicle) => {
-  emits('openEditVehicleModal', vehicle);
-};
 </script>
+
+<style lang="scss">
+.vehicle-card {
+  .vehicle-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .v-card {
+    text-align: center;
+  }
+
+  @media (min-width: 768px) {
+    .v-card {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .v-responsive.v-img {
+        max-width: 150px;
+      }
+    }
+  }
+
+}
+</style>

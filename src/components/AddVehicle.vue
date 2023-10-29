@@ -1,7 +1,7 @@
 <template>
   <div class="add-vehicle mb-4">
     <h2 class="text-h4 text-blue-darken-2 mb-4">Add Vehicle</h2>
-    <v-card flat class="add-vehicle pa-10">
+    <v-card flat class="add-vehicle pa-8">
       <div class="description mb-4 text-center">
         <p>
           Enter your VIN to search for your vehicle.
@@ -19,14 +19,16 @@
             </span>
           </template>
         </v-btn>
+
       </div>
 
-      <div class="text-subtitle-2">
+      <v-alert type="error" variant="tonal" v-show="error">{{ errorMsg }}</v-alert>
+
+      <div class="text-subtitle-2 mt-4">
         Need a sample VIN? use the <a href="https://vingenerator.org/" target="_blank"
           class="grey--text text--lighten-1">VIN Generator</a>
       </div>
 
-      <div class="error" v-show="error">{{ errorMsg }}</div>
     </v-card>
   </div>
 </template>
@@ -61,23 +63,30 @@ const search = () => {
     .then((response) => {
       const vehicleResults = response.data.Results;
 
-      fullVehicle.value.year = vehicleResults.find(
-        (x) => x.Variable === "Model Year"
-      ).Value;
+      if (vehicleResults[1].Value !== "0") {
+        error.value = true;
+        errorMsg.value = vehicleResults[4].Value;
+      } else {
+        fullVehicle.value.year = vehicleResults.find(
+          (x) => x.Variable === "Model Year"
+        ).Value;
 
-      fullVehicle.value.make = vehicleResults.find(
-        (x) => x.Variable === "Make"
-      ).Value;
+        fullVehicle.value.make = vehicleResults.find(
+          (x) => x.Variable === "Make"
+        ).Value;
 
-      fullVehicle.value.model = vehicleResults.find(
-        (x) => x.Variable === "Model"
-      ).Value;
+        fullVehicle.value.model = vehicleResults.find(
+          (x) => x.Variable === "Model"
+        ).Value;
 
-      fullVehicle.value.bodyClassId = vehicleResults.find(
-        (x) => x.Variable === "Body Class"
-      ).ValueId;
+        fullVehicle.value.bodyClassId = vehicleResults.find(
+          (x) => x.Variable === "Body Class"
+        ).ValueId;
 
-      fullVehicle.value.vin = userVin.value;
+        fullVehicle.value.vin = userVin.value;
+        store.addVehicle(fullVehicle.value);
+      }
+
     })
     .catch((err) => {
       error.value = true;
@@ -86,7 +95,6 @@ const search = () => {
     .finally(() => {
       userVin.value = "";
       loading.value = false;
-      store.addVehicle(fullVehicle.value);
     });
 };
 </script>
@@ -95,10 +103,16 @@ const search = () => {
 <style lang="scss">
 .add-vehicle {
   .vin-input-container {
-    display: flex;
-    justify-content: center;
-    max-width: 500px;
-    margin: 0 auto;
+    text-align: center;
+  }
+
+  @media (min-width: 768px) {
+    .vin-input-container {
+      display: flex;
+      justify-content: center;
+      max-width: 500px;
+      margin: 0 auto;
+    }
   }
 }
 </style>
